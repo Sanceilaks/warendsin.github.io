@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>War ends in 24 hours</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        height: 100vh;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>War ends in 24 hours</h1>
+
+        <iframe allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" frameborder="0"
+            scrolling="no" marginheight="0" marginwidth="0" width="512" height="288"
+            src="https://video-api.wsj.com/api-video/player/v3/iframe.html?guid=0BCA9F18-D3BF-43DA-9220-C13587EAEDF2"></iframe>
+
+        <h1 id="#countdown"></h1>
+    </div>
+</body>
+
+<script>
+    const endTime = new Date("2024-11-07T14:00:00+03:00");
+
+    const timer = setInterval(() => {
+        const now = Date.now();
+        const diff = endTime.getTime() - now;
+
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        const seconds = Math.floor((diff % (1000 * 60)) / (1000));
+
+        document.getElementById("#countdown").innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+
+        if (diff <= 0) {
+            clearInterval(timer);
+            document.getElementById("#countdown").innerHTML = "War has ended (ended, yes?)";
+        }
+    }, 1000);
+
+</script>
+
+</html>
