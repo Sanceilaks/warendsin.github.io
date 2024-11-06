@@ -472,12 +472,16 @@
 
         const timer = setInterval(() => {
             const now = Date.now();
-            const diff = endTime.getTime() - now;
+            let diff = endTime.getTime() - now;
 
             const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30)).clamp(0, 12);
+            diff -= months * 1000 * 60 * 60 * 24 * 30;
             const days = Math.floor(diff / (1000 * 60 * 60 * 24)).clamp(0, 365);
+            diff -= days * 1000 * 60 * 60 * 24;
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).clamp(0, 24);
+            diff -= hours * 1000 * 60 * 60;
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).clamp(0, 60);
+            diff -= minutes * 1000 * 60;
             const seconds = Math.floor((diff % (1000 * 60)) / (1000)).clamp(0, 60);
 
             document.getElementById("countdown").innerHTML = `${months}mn ${days}d ${hours}h ${minutes}m ${seconds}s`;
