@@ -31,6 +31,10 @@
 </body>
 
 <script>
+    Number.prototype.clamp = function (min, max) {
+        return Math.min(Math.max(this, min), max);
+    };
+
     const timezoneToCountry = {
         "Europe/Andorra": "Andorra",
         "Asia/Dubai": "United Arab Emirates",
@@ -461,19 +465,22 @@
 
         document.getElementById("title").innerHTML = `${SVOname} ends in 24 hours`;
 
+        document.title = `${SVOname} ends in 24 hours`;
+
         // from CNN
-        const endTime = new Date("2024-11-07T14:00:00+03:00");
+        const endTime = new Date("2025-01-20T14:00:00+03:00");
 
         const timer = setInterval(() => {
             const now = Date.now();
             const diff = endTime.getTime() - now;
 
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30)).clamp(0, 12);
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24)).clamp(0, 365);
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).clamp(0, 24);
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).clamp(0, 60);
+            const seconds = Math.floor((diff % (1000 * 60)) / (1000)).clamp(0, 60);
 
-            const seconds = Math.floor((diff % (1000 * 60)) / (1000));
-
-            document.getElementById("countdown").innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+            document.getElementById("countdown").innerHTML = `${months}mn ${days}d ${hours}h ${minutes}m ${seconds}s`;
 
             if (diff <= 0) {
                 clearInterval(timer);
